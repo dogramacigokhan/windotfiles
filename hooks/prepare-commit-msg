@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Automatically adds branch name and branch description to every commit message.
+#
+NAME=$(git branch | grep -oP '\*.*\/\K(?<a>\S+)') 
+DESCRIPTION=$(git config branch."$NAME".description)
+
+if [ -n "$NAME" ]
+then
+	echo "$NAME"': '"$(cat "$1")" > "$1"
+fi
+
+if [ -n "$DESCRIPTION" ] 
+then
+   echo "" >> "$1"
+   echo $DESCRIPTION >> "$1"
+fi
